@@ -65,7 +65,7 @@ public class SnapshotCheckPlugin implements Plugin<Project> {
                     }
                     if (shouldCheck && config.abortBuild && snapshots.size() > 0) {
                         // abort
-                        variant.getCheckManifest().doFirst(new Action<Task>() {
+                        variant.getMergeAssets().doFirst(new Action<Task>() {
                             @Override
                             public void execute(Task task) {
                                 StringBuilder builder = new StringBuilder();
