@@ -4,13 +4,13 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-//apply plugin: 'dependency.snapshotcheck'
-//
-//SnapshotCheck {
-//    checkBuildTypes = ['release', 'prod'] // 在指定的build type会做snapshot检查
-//    dump = true // 是否将依赖写到build/dependency.txt
-//    abortBuild = true // 如果有snapshot 是否中断打包
-//}
+apply plugin: 'dependency.snapshotcheck'
+
+SnapshotCheck {
+    checkBuildTypes = ['release', 'prod'] // 在指定的build type会做snapshot检查
+    dump = true // 是否将依赖写到build/dependency.txt
+    abortBuild = true // 如果有snapshot 是否中断打包
+}
 
 android {
     compileSdkVersion 28
