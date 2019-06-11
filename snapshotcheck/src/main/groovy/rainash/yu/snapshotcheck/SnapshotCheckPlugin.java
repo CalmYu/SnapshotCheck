@@ -3,6 +3,7 @@ package rainash.yu.snapshotcheck;
 import com.android.build.gradle.AppExtension;
 import com.android.build.gradle.api.ApplicationVariant;
 import com.android.builder.model.BuildType;
+import org.antlr.v4.misc.Utils;
 import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -65,17 +66,21 @@ public class SnapshotCheckPlugin implements Plugin<Project> {
                     }
                     if (shouldCheck && config.abortBuild && snapshots.size() > 0) {
                         // abort
-                        variant.getMergeAssets().doFirst(new Action<Task>() {
-                            @Override
-                            public void execute(Task task) {
-                                StringBuilder builder = new StringBuilder();
-                                builder.append("The app contains snapshot libraries:\n");
-                                for (MavenDependency d : snapshots) {
-                                    builder.append(d.toGradleDependency()).append("\n");
+                        String typeStrCapitalize = Utils.capitalize(variant.getName());
+                        Task mergeAssets = project.getTasks().findByName(String.format("merge%sAssets", typeStrCapitalize));
+                        if (mergeAssets != null) {
+                            mergeAssets.doFirst(new Action<Task>() {
+                                @Override
+                                public void execute(Task task) {
+                                    StringBuilder builder = new StringBuilder();
+                                    builder.append("The app contains snapshot libraries:\n");
+                                    for (MavenDependency d : snapshots) {
+                                        builder.append(d.toGradleDependency()).append("\n");
+                                    }
+                                    throw new RuntimeException(builder.toString());
                                 }
-                                throw new RuntimeException(builder.toString());
-                            }
-                        });
+                            });
+                        }
                     }
                 } else {
                     project.getLogger().warn("未配置snapshot check!");
