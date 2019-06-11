@@ -1,0 +1,23 @@
+apply plugin: 'groovy'
+
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.CalmYu'
+
+dependencies {
+    compile 'com.android.tools.build:gradle:3.1.4'
+    compile gradleApi()//gradle sdk
+    compile localGroovy()//groovy sdk
+}
+
+//apply plugin: 'maven-publish'
+//
+//publishing {
+//    publications {
+//        mavenJava(MavenPublication) {
+//            groupId = 'yu.rainash.plugin'
+//            artifactId = 'snapshot-check'
+//            version = '0.0.0-SNAPSHOT'
+//            from components.java
+//        }
+//    }
+//}
